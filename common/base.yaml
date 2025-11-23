@@ -1,0 +1,36 @@
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: !secret api_key
+
+ota:
+  platform: esphome # Required for ESPhome 2024.6.0 and greater
+  password: !secret ota_password
+
+# Enable Web server.
+web_server:
+  port: 80
+
+# Sync time with Home Assistant.
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+# Create a button to restart the unit from HomeAssistant. Rarely needed, but can be handy.
+button:
+  - platform: restart
+    name: "Restart ${friendly_name}"
+
+text_sensor:
+  # Expose ESPHome version as sensor.
+  - platform: version
+    name: ESPHome Version
+
+sensor:
+  # Uptime sensor.
+  - platform: uptime
+    name: Uptime

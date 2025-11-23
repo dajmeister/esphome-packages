@@ -1,0 +1,14 @@
+esp32:
+  board: esp32-c6-devkitc-1
+  framework:
+    type: esp-idf
+
+uart:
+  id: HP_UART
+  baud_rate: 2400
+  tx_pin: GPIO16
+  rx_pin:
+    number: GPIO17
+    mode: 
+      pullup: true
+      input: true

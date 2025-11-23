@@ -1,0 +1,10 @@
+substitutions:
+  name: ${room|replace(' ','-')}-mini-split-thread
+  friendly_name: ${room|title} Mini Split Thread
+  remote_temp_sensor: sensor.${room|replace(' ','_')}_thermometer_temperature # Homeassistant sensor providing remote temperature
+
+packages:
+  - !include ../common/base.yaml
+  - !include ../common/boards/esp32-c6.yaml
+  - !include ../common/thread.yaml
+  - !include ../common/mitsubishi-cn105.yaml
