@@ -5,11 +5,11 @@ esphome:
 # Enable Home Assistant API
 api:
   encryption:
-    key: !secret api_key
+    key: ${api_key}
 
 ota:
   platform: esphome # Required for ESPhome 2024.6.0 and greater
-  password: !secret ota_password
+  password: ${ota_password}
 
 # Enable Web server.
 web_server:

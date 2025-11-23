@@ -3,7 +3,7 @@ network:
   enable_ipv6: True
 
 openthread:
-  tlv: !secret thread_tlv
+  tlv: ${thread_tlv}
 
 text_sensor:
   # Expose thread information as sensors.
