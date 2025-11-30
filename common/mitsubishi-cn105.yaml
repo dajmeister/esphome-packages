@@ -1,6 +1,8 @@
-
 external_components:
-  - source: github://echavet/MitsubishiCN105ESPHome
+  - source:
+    type: git 
+    url: https://github.com/echavet/MitsubishiCN105ESPHome
+    ref: v1.5.1   
 
 # Customize the filters to your application:
 #   Uncomment the first line to convert F to C when remote temps are sent
