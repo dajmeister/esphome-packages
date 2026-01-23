@@ -20,12 +20,17 @@ climate:
         target_temperature: 1
         current_temperature: 0.5
     # Fahrenheit compatibility mode - uses Mitsubishi's "custom" unit conversions, set to
-    # "true" for better support of Fahrenheit units in HomeAssistant
-    fahrenheit_compatibility: true
+    # "standard" (or "alt") for better support of Fahrenheit units in HomeAssistant.
+    # Options: "disabled" (default), "standard", "alt"
+    fahrenheit_compatibility: "standard"
     # Timeout and communication settings
     remote_temperature_timeout: 30min
     update_interval: 1.5s
     debounce_delay : 100ms
+    # Delay the initial UART/CONNECT bootstrap to avoid missing early OTA logs
+    connection_bootstrap_delay: 30s
+    # Optional: use extended CONNECT handshake (0x5B) for installer/service privileges
+    installer_mode: false
     # Various optional sensors, not all sensors are supported by all heatpumps
     compressor_frequency_sensor:
       name: Compressor Frequency
@@ -65,6 +70,30 @@ climate:
       name: Runtime Hours
       entity_category: diagnostic
       disabled_by_default: true
+    air_purifier_switch:
+      name: Air purifier
+      disabled_by_default: true
+    night_mode_switch:
+      name: Night mode
+      disabled_by_default: true
+    circulator_switch:
+      name: Circulator
+      disabled_by_default: true
+    airflow_control_select:
+      name: Airflow Control
+      disabled_by_default: true
+    supports:
+      # Explicitly control dual setpoint support in the UI/traits
+      # Defaults to false when omitted
+      dual_setpoint: true
+      # You can still specify supported modes as before
+      mode: [AUTO, COOL, HEAT, DRY, FAN_ONLY]
+      fan_mode: [AUTO, QUIET, LOW, MEDIUM, HIGH]
+      swing_mode: ["OFF", VERTICAL]
+      # Specify which options to display in horizontal_vane_select dropdown
+      # Defaults to all options: ["←←", "←", "|", "→", "→→", "←→", "SWING", "AIRFLOW CONTROL"]
+      # Example to hide "←→" and "AIRFLOW CONTROL" if not supported by your unit:
+      # horizontal_vane_mode: ["←←", "←", "|", "→", "→→", SWING]
 
 # Creates the sensor used to receive the remote temperature from Home Assistant
 # Uses sensor selected in substitutions area at top of config
@@ -98,19 +127,21 @@ logger:
   # hardware_uart: UART1 # Uncomment on ESP8266 devices
   level: INFO
   logs:
-    EVT_SETS : INFO
-    WIFI : INFO
-    MQTT : INFO
-    WRITE_SETTINGS : INFO
-    SETTINGS : INFO
-    STATUS : INFO
+    EVT_SETS: INFO
+    WIFI: INFO
+    MQTT: INFO
+    WRITE_SETTINGS: INFO
+    SETTINGS: INFO
+    STATUS: INFO
+    # CN105 connection/bootstrap diagnostics (UART init + CONNECT handshake)
+    CN105_CONN: INFO
     CN105Climate: WARN
     CN105: INFO
     climate: WARN
     sensor: WARN
-    chkSum : INFO
-    WRITE : WARN
-    READ : WARN
+    chkSum: INFO
+    WRITE: WARN
+    READ: WARN
     Header: INFO
-    Decoder : INFO
+    Decoder: INFO
     CONTROL_WANTED_SETTINGS: INFO
