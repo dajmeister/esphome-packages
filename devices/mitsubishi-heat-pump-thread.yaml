@@ -1,7 +1,9 @@
 substitutions:
   name: ${room|replace(' ','-')}-mini-split-thread
   friendly_name: ${room|title} Mini Split Thread
-  remote_temp_sensor: sensor.${room|replace(' ','_')}_mini_split_remote_temperature # Homeassistant sensor providing remote temperature
+  # Homeassistant sensor providing remote temperature
+  remote_temp_sensor: sensor.${room|replace(' ','_')}_mini_split_remote_temperature
+  mitsubishi_cn105_esphome_version: v1.5.1
 
 packages:
   - !include ../common/base.yaml
